@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mohamed Rostom — Test Automation Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+  :root {
+    --bg: #080c14;
+    --bg2: #0d1422;
+    --bg3: #111827;
+    --surface: #141d2e;
+    --border: #1e2d45;
+    --accent: #3b82f6;
+    --accent2: #60a5fa;
+    --gold: #f59e0b;
+    --red: #ef4444;
+    --green: #10b981;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --mono: 'DM Mono', monospace;
+    --display: 'Syne', sans-serif;
+    --serif: 'Instrument Serif', serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--display);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 1px solid rgba(59,130,246,0.4);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.15s ease;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 3rem;
+    background: rgba(8,12,20,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-name {
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero-name span {
+    display: block;
+    background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-tagline {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    color: var(--muted);
+    margin-bottom: 3rem;
+    max-width: 600px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-tagline em {
+    color: var(--accent2);
+    font-style: normal;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .stat-item { display: flex; flex-direction: column; gap: 0.25rem; }
+  .stat-num {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 1s forwards;
+  }
+
+  .btn-primary {
+    padding: 0.875rem 2rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: none;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+
+  .btn-secondary {
+    padding: 0.875rem 2rem;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: none;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2rem;
+    left: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.2s forwards;
+  }
+  .scroll-line {
+    width: 40px;
+    height: 1px;
+    background: var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .scroll-line::after {
+    content: '';
+    position: absolute;
+    left: -100%;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--accent);
+    animation: scrollAnim 2s infinite;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 6rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .section-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 3rem;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+  }
+
+  .about-text p strong { color: var(--text); }
+
+  .philosophy-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    position: relative;
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
+  }
+  .philosophy-card::before {
+    content: '"';
+    position: absolute;
+    top: -0.5rem;
+    left: 1.5rem;
+    font-size: 5rem;
+    color: var(--accent);
+    opacity: 0.2;
+    font-family: var(--serif);
+    line-height: 1;
+  }
+
+  .philosophy-quote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .philosophy-attr {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* EXPERIENCE */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), var(--border), transparent);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 3.5rem;
+    padding-left: 2rem;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.6s ease;
+  }
+  .timeline-item.visible { opacity: 1; transform: translateX(0); }
+
+  .timeline-dot {
+    position: absolute;
+    left: -2.45rem;
+    top: 0.3rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 12px rgba(59,130,246,0.5);
+  }
+  .timeline-dot.gold { background: var(--gold); box-shadow: 0 0 12px rgba(245,158,11,0.5); }
+
+  .timeline-period {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+  .timeline-period.gold-text { color: var(--gold); }
+
+  .timeline-role {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+
+  .timeline-company {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .timeline-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    background: rgba(245,158,11,0.1);
+    border: 1px solid rgba(245,158,11,0.3);
+    color: var(--gold);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .timeline-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .timeline-bullets li {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.6;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .timeline-bullets li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .tech-tag {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+  }
+  .tech-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.75rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .skill-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .skill-card:hover { border-color: rgba(59,130,246,0.3); transform: translateY(-4px); }
+  .skill-card:hover::after { transform: scaleX(1); }
+
+  .skill-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .skill-cat {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+  .skill-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .skill-item {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+    background: rgba(59,130,246,0.06);
+    border: 1px solid rgba(59,130,246,0.15);
+    color: var(--accent2);
+  }
+
+  /* CASE STUDIES */
+  .cases-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .case-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+  }
+  .case-card:hover { border-color: rgba(59,130,246,0.3); transform: translateY(-4px); }
+
+  .case-number {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    margin-bottom: 1rem;
+  }
+  .case-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+  .case-desc {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+  .case-outcome {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 1rem;
+    background: rgba(16,185,129,0.04);
+    border: 1px solid rgba(16,185,129,0.15);
+    margin-bottom: 1.25rem;
+  }
+  .outcome-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--green);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .outcome-text {
+    font-size: 0.82rem;
+    color: var(--text);
+  }
+
+  /* PHILOSOPHY */
+  .philosophy-section {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 5rem 3rem;
+  }
+
+  .philosophy-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .philosophy-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    margin-top: 3rem;
+  }
+  .philosophy-block {
+    background: var(--bg2);
+    padding: 2.5rem;
+    transition: background 0.3s;
+  }
+  .philosophy-block:hover { background: var(--surface); }
+  .philosophy-block-icon { font-size: 1.5rem; margin-bottom: 1rem; }
+  .philosophy-block-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--text);
+  }
+  .philosophy-block-text {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* CERTIFICATIONS */
+  .certs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+  .cert-card {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+  .cert-card:hover { border-color: rgba(59,130,246,0.3); }
+  .cert-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(59,130,246,0.1);
+    border: 1px solid rgba(59,130,246,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .cert-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+  .cert-id {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+  }
+
+  /* CONTACT */
+  .contact-section {
+    text-align: center;
+    padding: 6rem 3rem;
+    position: relative;
+    z-index: 2;
+  }
+  .contact-section::before {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .contact-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+  .contact-sub {
+    color: var(--muted);
+    margin-bottom: 3rem;
+    font-size: 1rem;
+    font-family: var(--mono);
+    letter-spacing: 0.05em;
+  }
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    border: 1px solid var(--border);
+    color: var(--text);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    transition: all 0.2s;
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+  .footer-text {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+  .footer-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--green);
+  }
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+  }
+
+  /* DIVIDER */
+  .full-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scrollAnim {
+    to { left: 100%; }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 7rem 1.5rem 3rem; }
+    section { padding: 4rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-stats { gap: 1.5rem; }
+    .philosophy-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+    .contact-section { padding: 4rem 1.5rem; }
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">MR // Portfolio</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#cases">Case Studies</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-eyebrow">Test Automation Engineer · Sindelfingen, Germany</div>
+
+  <h1 class="hero-name">
+    <span>Mohamed</span>
+    <span>Rostom</span>
+  </h1>
+
+  <p class="hero-tagline">
+    Building the automation infrastructure that keeps <em>ADAS systems safe</em> before they reach the road.
+  </p>
+
+  <div class="hero-stats">
+    <div class="stat-item">
+      <span class="stat-num">4+</span>
+      <span class="stat-label">Years Experience</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">4</span>
+      <span class="stat-label">OEM Clients</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">3</span>
+      <span class="stat-label">Automotive Brands</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">2</span>
+      <span class="stat-label">ISTQB Certs</span>
+    </div>
+  </div>
+
+  <div class="hero-ctas">
+    <a href="Mohamed_Rostom_AutomationEngineer_Resume.pdf" class="btn-primary" download>Download Resume</a>
+    <a href="#contact" class="btn-secondary">Get In Touch</a>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll to explore
+  </div>
+</div>
+
+<div class="full-divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">About</div>
+  <h2 class="section-title">Engineer by craft.<br/>Automator by conviction.</h2>
+
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        I'm a <strong>Test Automation Engineer</strong> specializing in automotive embedded systems, with deep experience designing CI/CD pipelines, Python test frameworks, and HIL environments for ADAS ECU validation.
+      </p>
+      <p>
+        Currently embedded on-site at <strong>Mercedes-Benz</strong> as a Resident Engineer via Luxoft, where I work directly with OEM engineers to automate the validation of safety-critical ADAS functions — from sensor fusion to driver assistance features.
+      </p>
+      <p>
+        Before that, I spent two years at <strong>Valeo</strong> building embedded Linux software and automation pipelines for Nissan and Volkswagen telematics ECUs.
+      </p>
+      <p>
+        I believe the engineer's job in the AI era isn't to write every line of code — it's to <strong>own the problem, set the direction, and ensure quality at every layer</strong> of the system.
+      </p>
+    </div>
+
+    <div>
+      <div class="philosophy-card">
+        <p class="philosophy-quote">
+          "The main goal of engineers is to decrease time to finish a task with high Quality and Efficiency. Anything in the Software Industry can be done — but with a cost. Based on the inputs, engineers set priority and start working on it."
+        </p>
+        <div class="philosophy-attr">— Engineering Philosophy / Mohamed Rostom</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="full-divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Experience</div>
+  <h2 class="section-title">Where I've built things<br/>that matter.</h2>
+
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-dot gold"></div>
+      <div class="timeline-period gold-text">Jul 2024 — Present</div>
+      <div class="timeline-role">Test Automation Engineer</div>
+      <div class="timeline-company">Mercedes-Benz ADAS Project · Luxoft GmbH</div>
+      <div class="timeline-badge">⭐ Resident Engineer On-Site at Mercedes-Benz</div>
+      <ul class="timeline-bullets">
+        <li>Architected scalable GitLab CI/CD pipelines for build, integration, and automated validation of ADAS ECU software — catching integration failures before they propagate.</li>
+        <li>Developed reusable Python automation libraries and pipeline templates for component packaging, versioning, and publishing across multiple ADAS ECU projects.</li>
+        <li>Designed test automation frameworks using Python, CAPL, and Vector CANoe for ECU validation of sensor fusion, environment perception, and driver assistance features.</li>
+        <li>Maintained and extended HIL environments validating real-time sensor inputs and vehicle communication protocols (CAN, LIN, Ethernet) under simulated road conditions.</li>
+        <li>Collaborated directly with OEM engineers to debug integration issues, optimize workflows, and drive ASPICE compliance across V&V processes.</li>
+      </ul>
+      <div class="tech-tags">
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">CAPL</span>
+        <span class="tech-tag">GitLab CI/CD</span>
+        <span class="tech-tag">Vector CANoe</span>
+        <span class="tech-tag">HIL</span>
+        <span class="tech-tag">ASPICE</span>
+        <span class="tech-tag">Jira</span>
+        <span class="tech-tag">Confluence</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-period">Nov 2022 — Jul 2024</div>
+      <div class="timeline-role">Software & Automation Engineer</div>
+      <div class="timeline-company">Valeo · Clients: Nissan, Volkswagen</div>
+      <ul class="timeline-bullets">
+        <li>Developed software update and OTA configuration management components for telematics ECUs using C/C++ and SQLite on Embedded Linux platforms.</li>
+        <li>Implemented Python and Bash automation scripts supporting CI, regression testing, and software validation across multiple automotive programs.</li>
+        <li>Designed and executed test plans for V2V communication, remote diagnostics, and FOTA components against functional requirements.</li>
+        <li>Debugged complex software-hardware interactions on real-time embedded systems, resolving integration blockers and improving system reliability.</li>
+      </ul>
+      <div class="tech-tags">
+        <span class="tech-tag">C/C++</span>
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">CAPL</span>
+        <span class="tech-tag">SQLite</span>
+        <span class="tech-tag">Embedded Linux</span>
+        <span class="tech-tag">Bash</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-period">Oct 2021 — Oct 2022</div>
+      <div class="timeline-role">Validation & Test Automation Engineer</div>
+      <div class="timeline-company">Valeo · Clients: Nissan, Renault</div>
+      <ul class="timeline-bullets">
+        <li>Designed and executed comprehensive validation test plans covering smoke, regression, exploratory, negative, and feature interaction testing.</li>
+        <li>Automated manual test cases and integrated them into Jenkins CI/CD pipelines, enabling daily validation runs and reducing regression cycle time.</li>
+        <li>Maintained HIL testing environments and full V&V documentation using Core ALM and IBM Rational DOORS.</li>
+      </ul>
+      <div class="tech-tags">
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">CAPL</span>
+        <span class="tech-tag">Vector CANoe</span>
+        <span class="tech-tag">Jenkins</span>
+        <span class="tech-tag">Core ALM</span>
+        <span class="tech-tag">IBM DOORS</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="full-divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">Technical Skills</div>
+  <h2 class="section-title">The stack behind<br/>the automation.</h2>
+
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-icon">🤖</div>
+      <div class="skill-cat">Automation & Testing</div>
+      <div class="skill-items">
+        <span class="skill-item">Python</span>
+        <span class="skill-item">pytest</span>
+        <span class="skill-item">CAPL</span>
+        <span class="skill-item">Vector CANoe</span>
+        <span class="skill-item">Test Studio</span>
+        <span class="skill-item">HIL Testing</span>
+        <span class="skill-item">Robot Framework</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">⚙️</div>
+      <div class="skill-cat">CI/CD & DevOps</div>
+      <div class="skill-items">
+        <span class="skill-item">GitLab CI/CD</span>
+        <span class="skill-item">Jenkins</span>
+        <span class="skill-item">Git</span>
+        <span class="skill-item">Docker</span>
+        <span class="skill-item">Pipeline Design</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">💻</div>
+      <div class="skill-cat">Programming</div>
+      <div class="skill-items">
+        <span class="skill-item">C/C++</span>
+        <span class="skill-item">Python</span>
+        <span class="skill-item">Java</span>
+        <span class="skill-item">Shell/Bash</span>
+        <span class="skill-item">CAPL</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🚗</div>
+      <div class="skill-cat">Automotive & Protocols</div>
+      <div class="skill-items">
+        <span class="skill-item">CAN/CAN-FD</span>
+        <span class="skill-item">LIN</span>
+        <span class="skill-item">Ethernet</span>
+        <span class="skill-item">ASPICE</span>
+        <span class="skill-item">V&V</span>
+        <span class="skill-item">ISO 26262</span>
+        <span class="skill-item">ADAS</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🐧</div>
+      <div class="skill-cat">Systems & OS</div>
+      <div class="skill-items">
+        <span class="skill-item">Embedded Linux</span>
+        <span class="skill-item">Real-Time OS</span>
+        <span class="skill-item">Windows</span>
+        <span class="skill-item">SQLite</span>
+        <span class="skill-item">PostgreSQL</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">📋</div>
+      <div class="skill-cat">ALM & Collaboration</div>
+      <div class="skill-items">
+        <span class="skill-item">Jira</span>
+        <span class="skill-item">Confluence</span>
+        <span class="skill-item">IBM DOORS</span>
+        <span class="skill-item">Core ALM</span>
+        <span class="skill-item">STARC</span>
+        <span class="skill-item">Agile/Scrum</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="full-divider"></div>
+
+<!-- CASE STUDIES -->
+<section id="cases">
+  <div class="section-label">Case Studies</div>
+  <h2 class="section-title">Problems solved.<br/>Systems built.</h2>
+
+  <div class="cases-grid">
+    <div class="case-card">
+      <div class="case-number">CASE // 001</div>
+      <div class="case-title">ADAS CI/CD Pipeline Architecture</div>
+      <div class="case-desc">
+        Designed end-to-end GitLab CI/CD pipelines for Mercedes-Benz ADAS ECU software — covering build, static analysis, integration, and automated validation stages across multiple ECU projects.
+      </div>
+      <div class="case-outcome">
+        <div class="outcome-label">Outcome</div>
+        <div class="outcome-text">Reusable pipeline templates adopted across multiple ADAS ECU projects, reducing per-project pipeline setup effort and enforcing consistent validation gates before release.</div>
+      </div>
+      <div class="tech-tags">
+        <span class="tech-tag">GitLab CI/CD</span>
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">ASPICE</span>
+        <span class="tech-tag">ECU</span>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-number">CASE // 002</div>
+      <div class="case-title">Python Test Automation Framework for ECU Validation</div>
+      <div class="case-desc">
+        Built a modular Python automation framework using CAPL and Vector CANoe to validate ADAS ECU functions — including sensor fusion, object detection, and driver assistance features — under simulated road scenarios via HIL.
+      </div>
+      <div class="case-outcome">
+        <div class="outcome-label">Outcome</div>
+        <div class="outcome-text">Framework enabled systematic regression coverage of ADAS functions, replacing manual test execution with automated scenario-driven validation runs integrated into CI pipelines.</div>
+      </div>
+      <div class="tech-tags">
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">CAPL</span>
+        <span class="tech-tag">Vector CANoe</span>
+        <span class="tech-tag">HIL</span>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-number">CASE // 003</div>
+      <div class="case-title">OTA Firmware Update Components — Telematics ECU</div>
+      <div class="case-desc">
+        Developed and maintained software update and configuration management components for automotive telematics ECUs at Valeo, enabling reliable over-the-air firmware delivery for Nissan and Volkswagen platforms.
+      </div>
+      <div class="case-outcome">
+        <div class="outcome-label">Outcome</div>
+        <div class="outcome-text">Stable FOTA update mechanism deployed across production telematics units, with embedded validation suite catching regression defects before OEM delivery milestones.</div>
+      </div>
+      <div class="tech-tags">
+        <span class="tech-tag">C/C++</span>
+        <span class="tech-tag">SQLite</span>
+        <span class="tech-tag">Embedded Linux</span>
+        <span class="tech-tag">Python</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="full-divider"></div>
+
+<!-- PHILOSOPHY -->
+<div class="philosophy-section">
+  <div class="philosophy-inner">
+    <div class="section-label">Engineering Philosophy</div>
+    <h2 class="section-title">How I think about<br/>building software.</h2>
+
+    <div class="philosophy-grid">
+      <div class="philosophy-block">
+        <div class="philosophy-block-icon">💡</div>
+        <div class="philosophy-block-title">Ideas drive everything</div>
+        <div class="philosophy-block-text">Every system starts with a problem worth solving. The clearest ideas — about what to build, what to skip, and what failure looks like — produce the best software.</div>
+      </div>
+      <div class="philosophy-block">
+        <div class="philosophy-block-icon">🤖</div>
+        <div class="philosophy-block-title">AI amplifies, engineers judge</div>
+        <div class="philosophy-block-text">AI can generate any algorithm. The engineer's job is to review it for correctness, security, and fit to the use case. Domain knowledge is what separates a good result from a dangerous one.</div>
+      </div>
+      <div class="philosophy-block">
+        <div class="philosophy-block-icon">⚖️</div>
+        <div class="philosophy-block-title">Everything has a cost</div>
+        <div class="philosophy-block-text">Time, money, resources, human power. Engineers set priorities based on inputs and work accordingly. Knowing what NOT to build is as valuable as knowing how to build.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CERTIFICATIONS -->
+<section>
+  <div class="section-label">Certifications</div>
+  <h2 class="section-title">Verified expertise.</h2>
+
+  <div class="certs-grid">
+    <div class="cert-card">
+      <div class="cert-icon">📋</div>
+      <div>
+        <div class="cert-name">ISTQB Certified Tester Foundation Level</div>
+        <div class="cert-id">ID: 221026031</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">🏃</div>
+      <div>
+        <div class="cert-name">ISTQB Agile Tester</div>
+        <div class="cert-id">ID: 230817023</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">⚡</div>
+      <div>
+        <div class="cert-name">Modern C++ (C++11/14/17)</div>
+        <div class="cert-id">Udemy · UC-33d0e302-7695-4cb7</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">🎓</div>
+      <div>
+        <div class="cert-name">OOP Specialization</div>
+        <div class="cert-id">Coursera · NGE9PDT4GKCB</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="full-divider"></div>
+
+<!-- CONTACT -->
+<div class="contact-section" id="contact">
+  <div class="section-label" style="justify-content:center">Contact</div>
+  <h2 class="contact-title">Let's build something<br/>that doesn't fail.</h2>
+  <p class="contact-sub">Open to senior automation, ADAS validation, and embedded systems roles.</p>
+
+  <div class="contact-links">
+    <a href="mailto:mohamedrostom9538@gmail.com" class="contact-link">
+      📧 mohamedrostom9538@gmail.com
+    </a>
+    <a href="https://linkedin.com/in/mohamed-abdelfattah-rostom" class="contact-link" target="_blank">
+      💼 LinkedIn Profile
+    </a>
+    <a href="https://github.com/MohamedRostom" class="contact-link" target="_blank">
+      🐙 GitHub
+    </a>
+    <a href="Mohamed_Rostom_AutomationEngineer_Resume.pdf" class="contact-link" download>
+      📄 Download Resume
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-text">© 2025 Mohamed Rostom · Built for GitHub Pages</div>
+  <div class="footer-status">
+    <div class="status-dot"></div>
+    Open to opportunities
+  </div>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animateCursor() {
+    cursor.style.left = mx - 4 + 'px';
+    cursor.style.top = my - 4 + 'px';
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx - 16 + 'px';
+    ring.style.top = ry - 16 + 'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  // Scroll reveal
+  const items = document.querySelectorAll('.timeline-item');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.2 });
+  items.forEach(i => obs.observe(i));
+</script>
+
+</body>
+</html>

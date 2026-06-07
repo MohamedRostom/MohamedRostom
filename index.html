@@ -4,6 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mohamed Rostom — Software Automation Engineer</title>
+  <meta name="description" content="Mohamed Rostom — Software Automation Engineer specializing in ADAS validation, ECU testing, CI/CD pipelines, and embedded systems. 4+ years at Mercedes-Benz, Valeo, ISTQB certified.">
+  <meta name="author" content="Mohamed Rostom">
+  <meta property="og:title" content="Mohamed Rostom — Software Automation Engineer">
+  <meta property="og:description" content="ADAS validation, ECU testing, CI/CD pipelines. 4+ years across Mercedes-Benz, Valeo, Nissan, VW, Renault.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mohamedrostom.github.io/MohamedRostom/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Mohamed Rostom — Software Automation Engineer">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,700&family=Manrope:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -509,6 +518,7 @@
         rgba(139,92,246,0.0) 100%
       );
       pointer-events: none;
+      opacity: 0;
     }
 
     .exp-list {
@@ -931,10 +941,139 @@
       .contact-actions .btn { width: 100%; justify-content: center; }
       .exp-list { padding-left: 1.25rem; }
     }
+
+    /* =========================================================
+       SKIP LINK — a11y
+    ========================================================= */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 1rem;
+      padding: 0.5rem 1rem;
+      background: var(--teal);
+      color: #050510;
+      font-family: 'Manrope', sans-serif;
+      font-weight: 500;
+      font-size: 0.85rem;
+      border-radius: 0 0 6px 6px;
+      text-decoration: none;
+      z-index: 10000;
+      transition: top 0.2s;
+    }
+    .skip-link:focus { top: 0; }
+
+    /* =========================================================
+       DOT NAV — right sidebar
+    ========================================================= */
+    #dot-nav {
+      position: fixed;
+      right: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .dot-nav-item {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--muted);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .dot-nav-item:hover,
+    .dot-nav-item.active {
+      background: var(--teal);
+      transform: scale(1.4);
+    }
+
+    @media (max-width: 768px) {
+      #dot-nav { display: none; }
+    }
+
+    /* =========================================================
+       SECTION WATERMARK
+    ========================================================= */
+    .section-watermark {
+      position: absolute;
+      top: -0.5rem;
+      right: -1rem;
+      font-family: 'Fraunces', serif;
+      font-weight: 900;
+      font-size: clamp(5rem, 12vw, 9rem);
+      color: rgba(255, 255, 255, 0.03);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+    }
+
+    section { position: relative; }
+
+    /* =========================================================
+       GLASS SHEEN — pointer-reactive via CSS custom props
+    ========================================================= */
+    .glass {
+      --mx: 50%;
+      --my: 50%;
+    }
+    .glass::after {
+      background: radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,0.07) 0%, transparent 60%),
+                  linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 40%);
+    }
+
+    /* =========================================================
+       EXPERIENCE PIN — connector draw
+    ========================================================= */
+    .exp-connector {
+      position: absolute;
+      left: 0;
+      top: 2rem;
+      width: 2px;
+      height: 0%;
+      background: linear-gradient(180deg, var(--teal), var(--violet));
+      z-index: 1;
+      transition: none;
+    }
+
+    /* =========================================================
+       HERO — cinematic layers
+    ========================================================= */
+    .hero-parallax-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* =========================================================
+       RESPONSIVE: focus rings for keyboard nav
+    ========================================================= */
+    :focus-visible {
+      outline: 2px solid var(--teal);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* =========================================================
+       SECTION DIVIDER — animated width
+    ========================================================= */
+    .section-divider {
+      width: 0%;
+      transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .section-divider.visible { width: 100%; }
   </style>
 </head>
 
 <body>
+
+  <a href="#hero" class="skip-link">Skip to content</a>
 
   <!-- Enhancement 1: Scroll Progress Bar -->
   <div id="scroll-progress"></div>
@@ -942,6 +1081,19 @@
   <!-- Enhancement 3: Custom Cursor -->
   <div id="cursor"></div>
   <div id="cursor-dot"></div>
+
+  <!-- =========================================================
+       DOT NAV SIDEBAR
+  ========================================================= -->
+  <div id="dot-nav" aria-label="Section navigation" role="navigation">
+    <button data-target="hero" class="dot-nav-item active" aria-label="Hero"></button>
+    <button data-target="about" class="dot-nav-item" aria-label="About"></button>
+    <button data-target="experience" class="dot-nav-item" aria-label="Experience"></button>
+    <button data-target="skills" class="dot-nav-item" aria-label="Skills"></button>
+    <button data-target="work" class="dot-nav-item" aria-label="Work"></button>
+    <button data-target="education" class="dot-nav-item" aria-label="Education"></button>
+    <button data-target="contact" class="dot-nav-item" aria-label="Contact"></button>
+  </div>
 
   <!-- =========================================================
        NAVIGATION
@@ -961,6 +1113,7 @@
        HERO SECTION
   ========================================================= -->
   <section id="hero">
+    <span class="section-watermark" aria-hidden="true">01</span>
     <!-- Enhancement 4: Aurora Orbs (positioned divs for JS parallax) -->
     <div class="orb orb1"></div>
     <div class="orb orb2"></div>
@@ -1031,6 +1184,7 @@
        ABOUT SECTION
   ========================================================= -->
   <section id="about">
+    <span class="section-watermark" aria-hidden="true">02</span>
     <p class="section-label">01 — About</p>
     <h2 class="section-title">Building systems that make<br>quality <span class="gradient-text">repeatable</span></h2>
 
@@ -1072,11 +1226,13 @@
        EXPERIENCE SECTION
   ========================================================= -->
   <section id="experience">
+    <span class="section-watermark" aria-hidden="true">03</span>
     <p class="section-label">02 — Experience</p>
     <h2 class="section-title">Where I've <span class="gradient-text">built</span> things</h2>
 
     <!-- Enhancement 9: Timeline wrapper with vertical connector line -->
     <div class="exp-wrapper">
+      <div class="exp-connector" aria-hidden="true"></div>
       <div class="exp-list">
 
         <!-- Role 1 -->
@@ -1158,6 +1314,7 @@
        SKILLS SECTION
   ========================================================= -->
   <section id="skills">
+    <span class="section-watermark" aria-hidden="true">04</span>
     <p class="section-label">03 — Skills</p>
     <h2 class="section-title">Tools &amp; <span class="gradient-text">Expertise</span></h2>
 
@@ -1248,6 +1405,7 @@
        WORK / PROJECTS SECTION
   ========================================================= -->
   <section id="work">
+    <span class="section-watermark" aria-hidden="true">05</span>
     <p class="section-label">04 — Work</p>
     <h2 class="section-title">Selected <span class="gradient-text">Projects</span></h2>
 
@@ -1292,6 +1450,7 @@
        EDUCATION & CERTIFICATIONS SECTION
   ========================================================= -->
   <section id="education">
+    <span class="section-watermark" aria-hidden="true">06</span>
     <p class="section-label">05 — Education &amp; Certifications</p>
     <h2 class="section-title">Credentials &amp; <span class="gradient-text">Learning</span></h2>
 
@@ -1335,6 +1494,7 @@
        CONTACT SECTION — Enhancement 14
   ========================================================= -->
   <section id="contact">
+    <span class="section-watermark" aria-hidden="true">07</span>
     <div class="contact-inner">
       <p class="section-label">06 — Contact</p>
       <h2 class="contact-title reveal">
@@ -1408,49 +1568,271 @@
   </footer>
 
   <!-- =========================================================
-       JAVASCRIPT — All enhancements in one block
+       CDN SCRIPTS
+  ========================================================= -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <!-- =========================================================
+       JAVASCRIPT — All enhancements with GSAP & Lenis
   ========================================================= -->
   <script>
-    /* ── Enhancement 1: Scroll Progress Bar ── */
-    window.addEventListener('scroll', () => {
-      const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-      document.getElementById('scroll-progress').style.width = (pct * 100) + '%';
-    }, { passive: true });
+(function() {
+  /* ── prefers-reduced-motion gate ── */
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    /* ── Enhancement 3: Custom Cursor ── */
+  if (prefersReduced) {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+    document.querySelectorAll('.section-divider').forEach(el => el.classList.add('visible'));
+    // still run cursor, dot-nav (no motion); set stat values instantly
+    document.querySelectorAll('.stat-value[data-target]').forEach(el => {
+      el.textContent = el.dataset.target + (el.dataset.suffix || '');
+    });
+    initCursor();
+    initDotNav();
+    return;
+  }
+
+  window.addEventListener('load', init);
+
+  function init() {
+    if (typeof gsap === 'undefined' || typeof Lenis === 'undefined') {
+      // CDN failed — fallback to IntersectionObserver
+      fallbackReveal();
+      initCursor();
+      initStats(600);
+      initDotNav();
+      return;
+    }
+
+    /* ── 1. Lenis smooth scroll ── */
+    const lenis = new Lenis({
+      lerp: 0.09,
+      wheelMultiplier: 1,
+      smoothWheel: true,
+    });
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    lenis.on('scroll', ScrollTrigger.update);
+
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+
+    /* ── 2. Scroll progress bar (driven by Lenis) ── */
+    const progressBar = document.getElementById('scroll-progress');
+    lenis.on('scroll', ({ progress }) => {
+      progressBar.style.width = (progress * 100) + '%';
+    });
+
+    /* ── 3. Hero load timeline ── */
+    const heroTl = gsap.timeline({ delay: 0.1 });
+    heroTl
+      .from('.hero-badge',    { opacity: 0, y: 20, duration: 0.6, ease: 'power3.out' })
+      .from('.hero-name',     { opacity: 0, y: 40, duration: 0.7, ease: 'power3.out' }, '-=0.3')
+      .from('.hero-role',     { opacity: 0, y: 20, duration: 0.5, ease: 'power3.out' }, '-=0.4')
+      .from('.hero-location', { opacity: 0, y: 15, duration: 0.4, ease: 'power3.out' }, '-=0.3')
+      .from('.stat-item',     { opacity: 0, y: 20, stagger: 0.08, duration: 0.5, ease: 'power3.out' }, '-=0.3')
+      .from('.hero-actions',  { opacity: 0, y: 15, duration: 0.4, ease: 'power3.out' }, '-=0.2');
+
+    /* ── 4. Stats counter (fires after hero timeline completes) ── */
+    heroTl.call(() => initStats(0));
+
+    /* ── 5. Hero parallax — orbs move on scroll ── */
+    gsap.to('.orb1', {
+      y: -120,
+      ease: 'none',
+      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.5 }
+    });
+    gsap.to('.orb2', {
+      y: 80,
+      ease: 'none',
+      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.5 }
+    });
+
+    /* ── 6. Hero 3D tilt on mouse move ── */
+    const heroInner = document.querySelector('.hero-inner');
+    if (heroInner && window.innerWidth > 768) {
+      const xTo = gsap.quickTo(heroInner, 'rotationY', { duration: 0.6, ease: 'power2.out' });
+      const yTo = gsap.quickTo(heroInner, 'rotationX', { duration: 0.6, ease: 'power2.out' });
+      document.addEventListener('mousemove', (e) => {
+        const xPct = (e.clientX / window.innerWidth - 0.5);
+        const yPct = (e.clientY / window.innerHeight - 0.5);
+        xTo(xPct * 6);
+        yTo(-yPct * 4);
+      }, { passive: true });
+      document.addEventListener('mouseleave', () => { xTo(0); yTo(0); });
+      gsap.set(heroInner, { transformPerspective: 1200, transformOrigin: 'center center' });
+    }
+
+    /* ── 7. Hero scroll exit ── */
+    gsap.to('#hero', {
+      opacity: 0.4,
+      scale: 0.97,
+      ease: 'none',
+      scrollTrigger: { trigger: '#hero', start: 'center top', end: 'bottom top', scrub: 1 }
+    });
+
+    /* ── 8. Section watermark parallax ── */
+    document.querySelectorAll('.section-watermark').forEach(wm => {
+      gsap.fromTo(wm,
+        { y: 30 },
+        {
+          y: -30,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: wm.closest('section'),
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 2
+          }
+        }
+      );
+    });
+
+    /* ── 9. Section reveal (ScrollTrigger replaces IntersectionObserver) ── */
+    document.querySelectorAll('.reveal').forEach(el => {
+      gsap.fromTo(el,
+        { opacity: 0, y: 28 },
+        {
+          opacity: 1, y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 82%',
+            toggleActions: 'play none none none',
+          }
+        }
+      );
+    });
+
+    /* ── 10. Section divider draw ── */
+    document.querySelectorAll('.section-divider').forEach(div => {
+      gsap.fromTo(div,
+        { width: '0%' },
+        {
+          width: '100%',
+          duration: 1,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: div, start: 'top 90%', toggleActions: 'play none none none' }
+        }
+      );
+    });
+
+    /* ── 11. Section titles animate in ── */
+    document.querySelectorAll('.section-title').forEach(title => {
+      gsap.fromTo(title,
+        { opacity: 0, y: 24 },
+        {
+          opacity: 1, y: 0,
+          duration: 0.7,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: title, start: 'top 85%', toggleActions: 'play none none none' }
+        }
+      );
+    });
+
+    /* ── 12. Experience timeline pin + connector draw ── */
+    if (window.innerWidth > 768) {
+      const expSection = document.getElementById('experience');
+      const connector  = document.querySelector('.exp-connector');
+      const expCards   = document.querySelectorAll('.exp-card');
+
+      if (connector && expCards.length) {
+        // Draw the connector line progressively
+        gsap.fromTo(connector,
+          { height: '0%' },
+          {
+            height: '100%',
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '.exp-wrapper',
+              start: 'top 70%',
+              end: 'bottom 30%',
+              scrub: 1.2,
+            }
+          }
+        );
+
+        // Pin the experience section briefly + stagger cards in sequence
+        ScrollTrigger.create({
+          trigger: expSection,
+          start: 'top 15%',
+          end: '+=300',
+          pin: true,
+          pinSpacing: true,
+          onEnter: () => {
+            gsap.fromTo(expCards,
+              { opacity: 0.4, x: -12 },
+              { opacity: 1, x: 0, stagger: 0.18, duration: 0.55, ease: 'power3.out' }
+            );
+          }
+        });
+      }
+    }
+
+    /* ── 13. Glass sheen via CSS custom props ── */
+    document.querySelectorAll('.glass').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const mx = ((e.clientX - rect.left) / rect.width * 100).toFixed(1) + '%';
+        const my = ((e.clientY - rect.top)  / rect.height * 100).toFixed(1) + '%';
+        card.style.setProperty('--mx', mx);
+        card.style.setProperty('--my', my);
+      }, { passive: true });
+    });
+
+    /* ── 14. Magnetic CTA buttons ── */
+    document.querySelectorAll('.btn-primary').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const dx = (e.clientX - rect.left - rect.width / 2) * 0.25;
+        const dy = (e.clientY - rect.top  - rect.height / 2) * 0.25;
+        gsap.to(btn, { x: dx, y: dy, duration: 0.3, ease: 'power2.out' });
+      }, { passive: true });
+      btn.addEventListener('mouseleave', () => {
+        gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.5)' });
+      });
+    });
+
+    initCursor();
+    initDotNav(lenis);
+    initOrbMouse();
+
+    /* refresh all trigger positions after pin spacing + font load */
+    ScrollTrigger.refresh();
+    document.fonts && document.fonts.ready.then(() => ScrollTrigger.refresh());
+  }
+
+  /* ── Custom Cursor ── */
+  function initCursor() {
     const cursor    = document.getElementById('cursor');
     const cursorDot = document.getElementById('cursor-dot');
+    if (!cursor) return;
 
     document.addEventListener('mousemove', e => {
       cursor.style.left    = e.clientX + 'px';
       cursor.style.top     = e.clientY + 'px';
       cursorDot.style.left = e.clientX + 'px';
       cursorDot.style.top  = e.clientY + 'px';
-    });
+    }, { passive: true });
 
     document.querySelectorAll('a, button').forEach(el => {
       el.addEventListener('mouseenter', () => {
-        cursor.style.transform = 'translate(-50%, -50%) scale(1.6)';
-        cursor.style.opacity   = '0.6';
+        cursor.style.transform = 'translate(-50%, -50%) scale(1.7)';
+        cursor.style.opacity   = '0.5';
       });
       el.addEventListener('mouseleave', () => {
         cursor.style.transform = 'translate(-50%, -50%) scale(1)';
         cursor.style.opacity   = '1';
       });
     });
+  }
 
-    /* ── Enhancement 4: Aurora Orbs Mouse Parallax ── */
-    const orb1 = document.querySelector('.orb1');
-    const orb2 = document.querySelector('.orb2');
-
-    document.addEventListener('mousemove', e => {
-      const x = (e.clientX / window.innerWidth  - 0.5) * 36;
-      const y = (e.clientY / window.innerHeight - 0.5) * 36;
-      orb1.style.transform = `translate(${x * 0.6}px, ${y * 0.6}px)`;
-      orb2.style.transform = `translate(${-x * 0.4}px, ${-y * 0.4}px)`;
-    }, { passive: true });
-
-    /* ── Enhancement 5: Stats Counter Animation ── */
+  /* ── Stats counter ── */
+  function initStats(delay) {
     function animateCount(el) {
       const target   = +el.dataset.target;
       const suffix   = el.dataset.suffix || '';
@@ -1459,30 +1841,72 @@
       let current    = 0;
       const timer    = setInterval(() => {
         current += step;
-        if (current >= target) {
-          el.textContent = target + suffix;
-          clearInterval(timer);
-        } else {
-          el.textContent = Math.floor(current) + suffix;
-        }
+        if (current >= target) { el.textContent = target + suffix; clearInterval(timer); }
+        else { el.textContent = Math.floor(current) + suffix; }
       }, 16);
     }
-
     setTimeout(() => {
       document.querySelectorAll('.stat-value[data-target]').forEach(animateCount);
-    }, 600);
+    }, delay);
+  }
 
-    /* ── Enhancement 13: Scroll Reveal via IntersectionObserver ── */
-    const revealObserver = new IntersectionObserver((entries) => {
+  /* ── Aurora orb mouse parallax ── */
+  function initOrbMouse() {
+    const orb1 = document.querySelector('.orb1');
+    const orb2 = document.querySelector('.orb2');
+    if (!orb1 || !orb2) return;
+    document.addEventListener('mousemove', e => {
+      const x = (e.clientX / window.innerWidth  - 0.5) * 36;
+      const y = (e.clientY / window.innerHeight - 0.5) * 36;
+      orb1.style.transform = `translate(${x * 0.5}px, ${y * 0.5}px)`;
+      orb2.style.transform = `translate(${-x * 0.35}px, ${-y * 0.35}px)`;
+    }, { passive: true });
+  }
+
+  /* ── Dot Nav ── */
+  function initDotNav(lenis) {
+    const nav     = document.getElementById('dot-nav');
+    const buttons = nav ? nav.querySelectorAll('.dot-nav-item') : [];
+    const sections = ['hero','about','experience','skills','work','education','contact'];
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = document.getElementById(btn.dataset.target);
+        if (!target) return;
+        if (lenis) { lenis.scrollTo(target, { duration: 1.4, easing: t => t < 0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2 }); }
+        else { target.scrollIntoView({ behavior: 'smooth' }); }
+      });
+    });
+
+    const io = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
+          const id = entry.target.id;
+          buttons.forEach(b => b.classList.toggle('active', b.dataset.target === id));
         }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.4 });
 
-    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) io.observe(el);
+    });
+  }
+
+  /* ── Fallback reveal (no GSAP) ── */
+  function fallbackReveal() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    const divObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.section-divider').forEach(el => divObserver.observe(el));
+  }
+
+})();
   </script>
 
 </body>
